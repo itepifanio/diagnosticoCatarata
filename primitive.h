@@ -1,16 +1,19 @@
-enum bool{
+enum bool
+{
 	true = 1,
 	false = 0
 } bool;
 
-typedef struct Pixels{
+typedef struct Pixels
+{
 	/*
 	A new typedef with rgb pattern
 	*/
 	unsigned char r, g, b;
 } Pixel;
 
-typedef struct Images{
+typedef struct Images
+{
 	/*
 	A new typedef who read an image
 	with width, height integer,
@@ -21,3 +24,4 @@ typedef struct Images{
 	char header[54];
 	Pixel *pixels;
 } Image;
+
