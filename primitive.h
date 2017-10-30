@@ -9,7 +9,7 @@ typedef struct Pixels
 	/*
 	A new typedef with rgb pattern
 	*/
-	unsigned char r, g, b;
+	int r, g, b;
 } Pixel;
 
 typedef struct Images

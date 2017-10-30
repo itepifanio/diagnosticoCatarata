@@ -9,7 +9,7 @@ typedef struct Pixels
 	/*
 	A new typedef with rgb pattern
 	*/
-	unsigned char r, g, b;
+	int r, g, b;
 } Pixel;
 
 typedef struct Images
@@ -25,9 +25,3 @@ typedef struct Images
 	Pixel *pixels;
 } Image;
 
-static Image *readPPM(const char *filename)
-{
-	Image *img;
-	FILE *file;
-		
-}
