@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "primitive.h"
+#include "ppmTreatment.h"
+
+int main(){
+	
+	FILE *file;
+	
+	char *filename = "Normal.ppm";
+
+	getHeader(filename, &file, &img);
+
+	return 0;
+}
