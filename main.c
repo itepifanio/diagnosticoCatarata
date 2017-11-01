@@ -1,22 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "primitive.h"
+#include "ppmTreatment.h"
 
 int main(){
-	Image *img = (Image *)malloc(sizeof(Image));
-	FILE *file;
-	int i, c;
-	char header[16];
-
+	int i, j;
+	FILE *file = readFile("Normal.ppm");
+	Image *image = getImage(file);
 	
-	file = fopen("Normal.ppm", "r");
+	printf("Largura: %i\n", image->width);
+	printf("Altura: %i\n", image->height);	
 
-	fgets(header, sizeof(header), file);
+	//Tentando inicializar matriz de pixels
 
+	Pixel matrizPixel[image->width][image->height];
 
-	fscanf(file, "%d %d", &img->height, &img->width);
-
-	printf("Width:%d\nHeight:%d\n", img->width, img->height);
+	for(i = 0; i < image->width; i++){
+		for(j = 0; j < image->height; j++){
+			fscanf(file, "%i", &matrizPixel[i][j].r);
+			fscanf(file, "%i", &matrizPixel[i][j].g);
+			fscanf(file, "%i", &matrizPixel[i][j].b);
+		}
+	}
 
 	return 0;
 }

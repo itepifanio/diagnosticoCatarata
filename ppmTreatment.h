@@ -1,15 +1,26 @@
-#include "primitive.h"
-//A implementar
-void getHeader(char filename[20], FILE *file){
+FILE * readFile(char filename[]){
+	FILE *file;
+
+	file = fopen(filename, "r");
+	//Adicionar testes no arquivo aqui
+	return file;
+}
+
+//Read and return image
+Image * getImage(FILE *file){
+	int pixel;
 	char header[16];
-
 	Image *img = (Image *)malloc(sizeof(Image));
-	
-	file = fopen("Normal.ppm", "r");
-	
+
+	//fgets lê a primeira linha do arquivo
 	fgets(header, sizeof(header), file);
+	
+	//Lê uma sequência de caracteres como unsigned char
+	//E atribui os valores da linha ao tipo Image *img
+	fscanf(file, "%d %d", &img->width, &img->height);
 
-	fscanf(file, "%d %d", &img->height, &img->width);
+	//Pula a linha para ir aos pixels
+	while (fgetc(file) != '\n');	
 
-	printf("Width:%d\nHeight:%d\n", img->width, img->height);
+	return img;
 }
