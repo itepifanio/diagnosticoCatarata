@@ -22,6 +22,6 @@ typedef struct Images
 	*/
 	int width, height;
 	char header[54];
-	Pixel *pixels;
+	Pixel **pixels;
 } Image;
 
