@@ -10,6 +10,5 @@ int main(){
 	printf("Largura: %i\n", image->width);
 	printf("Altura: %i\n", image->height);	
 
-	printf("%i", image->pixels[0][0].r);
-	return 0;
+	grayScale(image);
 }
