@@ -1,13 +1,10 @@
+/**
+* Check the file to check if has comment on line
+* if has a comment, his will be ignored
+*
+* @params FILE *file_img
+**/
 void skip_comments(FILE *file_img) {
-    /**
-     *  \brief Ignora os comentários da imagem
-     *
-     *  Função para ignorar os comentários da
-     *  imagem durante a sua leitura.
-     *
-     *  \return Nada
-     */
-
     // Cria uma variável para armazenar cada caracter do comentário
     char buffer = fgetc(file_img);
 
@@ -33,50 +30,56 @@ void skip_comments(FILE *file_img) {
     ungetc(buffer, file_img);
 }
 
-
+/**
+* Open and read a file
+*
+* @params char filename
+* @return FILE file
+**/
 FILE * readFile(char filename[]){
 	FILE *file;
 
-	file = fopen(filename, "r");
+	file = fopen(filename, "rw");
 
 	if (! file){
 		printf("Ocorreu algum erro durante a leitura do arquivo");
 		exit(1);
 	}
 
-	//Adicionar testes no arquivo aqui
 	return file;
 }
 
-//Read and return image
+/**
+* Read a file line per line.
+* Create a primitive type Image img and
+* set your params width, height and
+* your pixels, returning 
+*
+* @params FILE *file
+* @return Image img
+**/
 Image * getImage(FILE *file){
 	char header[3];
-	int i, j, jumpLine;
+	int i, j, tamanhoMaximo;
 	
-	//fgets lê a primeira linha do arquivo e atribui ao tipo
-    skip_comments(file);
 	fscanf(file, "%s ", header);
 
-	//Checa tipo da imagem P3
 	if(header[0] != 'P' && header[1]!= '3'){
 		printf("Tipo da imagem não suportado");
 		exit(1);
 	}
 	
-	Image *img = malloc(sizeof(Image)*1);
+	Image *img = malloc(sizeof(Image));
 
 	if(! img){
 		printf("A imagem não conseguiu ser alocada na memória");
 		exit(1);
 	}
-	
-	//Lê uma sequência de caracteres como unsigned char
-	//E atribui os valores da linha ao tipo Image *img
-    skip_comments(file);
-	fscanf(file, "%d ", &img->width);
-    skip_comments(file);
-	fscanf(file, "%d ", &img->height);
-    
+    	skip_comments(file);
+	fscanf(file, "%d %d", &img->width, &img->height);
+
+	fscanf(file, "%d", &tamanhoMaximo);    	
+
 	img->pixels = (Pixel **)malloc(sizeof(Pixel*) * img->width);
 
 	for(i = 0; i < img->width; i++){
@@ -85,14 +88,13 @@ Image * getImage(FILE *file){
 
 	for(i = 0; i < img->width; i++){
 		for(j = 0; j < img->height; j++){
-            skip_comments(file);
-            fscanf(file, "%i", &img->pixels[i][j].r);
-            skip_comments(file);
-            fscanf(file, "%i", &img->pixels[i][j].g);
-            skip_comments(file);
-            fscanf(file, "%i", &img->pixels[i][j].b);
-            skip_comments(file);
-
+		    skip_comments(file);
+		    fscanf(file, "%i", &img->pixels[i][j].r);
+		    skip_comments(file);
+		    fscanf(file, "%i", &img->pixels[i][j].g);
+		    skip_comments(file);
+		    fscanf(file, "%i", &img->pixels[i][j].b);
+		    skip_comments(file);
 		}
 	}
 	
