@@ -88,17 +88,44 @@ Image * getImage(FILE *file){
 
 	for(i = 0; i < img->width; i++){
 		for(j = 0; j < img->height; j++){
-		    skip_comments(file);
-		    fscanf(file, "%i", &img->pixels[i][j].r);
-		    skip_comments(file);
-		    fscanf(file, "%i", &img->pixels[i][j].g);
-		    skip_comments(file);
-		    fscanf(file, "%i", &img->pixels[i][j].b);
-		    skip_comments(file);
+			skip_comments(file);
+			fscanf(file, "%i", &img->pixels[i][j].r);
+			skip_comments(file);
+			fscanf(file, "%i", &img->pixels[i][j].g);
+			skip_comments(file);
+			fscanf(file, "%i", &img->pixels[i][j].b);
+			skip_comments(file);
 		}
 	}
 	
 	fclose(file);
 
 	return img;
+}
+
+/**
+* Create an gray scale image
+* 
+* @params Image *img
+**/
+void grayScale(Image *img){
+	FILE *grayScale;
+	int i, j;
+		
+	grayScale = fopen("grayScale.ppm", "w+");
+
+	fprintf(grayScale, "P3\n");
+	fprintf(grayScale, "%i %i\n", img->width, img->height);
+	printf("%i\n", img->pixels[0][0].r);
+	printf("%i\n", (int)(img->pixels[0][0].r*1.3));
+
+	for(i = 0; i < img->width; i++){
+		for(j = 0; j < img->height; j++){
+			int luminance = (int)(img->pixels[i][j].r*1.3 + img->pixels[i][j].g*1.59 +
+				img->pixels[i][j].b*1.11);
+			fprintf(grayScale, "%i\n", luminance);
+			fprintf(grayScale, "%i\n", luminance);
+			fprintf(grayScale, "%i\n", luminance);
+		}
+	}
 }

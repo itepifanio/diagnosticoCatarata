@@ -2,6 +2,7 @@
 *.h~
 *.c~
 exec
+grayScale.ppm
 
 # Prerequisites
 *.d
