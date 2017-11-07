@@ -11,4 +11,7 @@ int main(){
 	printf("Altura: %i\n", image->height);	
 
 	grayScale(image);
+
+    Image *filteredImage = gaussianFilter(image);
+    saveImage("filtroGaussiano.ppm", filteredImage);
 }

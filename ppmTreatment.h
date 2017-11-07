@@ -49,42 +49,54 @@ FILE * readFile(char filename[]){
 	return file;
 }
 
+
+Image * buildImage( int width, int height ){
+	int i = 0;
+
+	Image *img = malloc(sizeof(Image));
+	
+	if(! img){
+		printf("A imagem não conseguiu ser alocada na memória");
+		exit(1);
+	}
+	
+	img->width = width;
+	img->height = height;
+
+	img->pixels = (Pixel **)malloc(sizeof(Pixel*) * img->width);
+
+	for( i = 0; i < width; i++ )
+		img->pixels[i] = (Pixel*)malloc(img->height * sizeof(Pixel));
+
+	return img;
+}
+
 /**
 * Read a file line per line.
 * Create a primitive type Image img and
 * set your params width, height and
-* your pixels, returning 
+* your pixels, returning
 *
 * @params FILE *file
 * @return Image img
 **/
 Image * getImage(FILE *file){
 	char header[3];
-	int i, j, tamanhoMaximo;
-	
+	int width, height, i, j, tamanhoMaximo;
+
 	fscanf(file, "%s ", header);
 
 	if(header[0] != 'P' && header[1]!= '3'){
 		printf("Tipo da imagem não suportado");
 		exit(1);
 	}
+
+  	skip_comments(file);
+	fscanf(file, "%d %d", &width, &height);
+
+	fscanf(file, "%d", &tamanhoMaximo);
 	
-	Image *img = malloc(sizeof(Image));
-
-	if(! img){
-		printf("A imagem não conseguiu ser alocada na memória");
-		exit(1);
-	}
-    	skip_comments(file);
-	fscanf(file, "%d %d", &img->width, &img->height);
-
-	fscanf(file, "%d", &tamanhoMaximo);    	
-
-	img->pixels = (Pixel **)malloc(sizeof(Pixel*) * img->width);
-
-	for(i = 0; i < img->width; i++){
-		img->pixels[i] = (Pixel*)malloc(img->height * sizeof(Pixel));
-	}
+	Image *img = buildImage(width, height);
 
 	for(i = 0; i < img->width; i++){
 		for(j = 0; j < img->height; j++){
@@ -97,35 +109,103 @@ Image * getImage(FILE *file){
 			skip_comments(file);
 		}
 	}
-	
+
 	fclose(file);
 
 	return img;
 }
 
 /**
-* Create an gray scale image
-* 
+* Create a gray scale image
+*
 * @params Image *img
 **/
+
 void grayScale(Image *img){
 	FILE *grayScale;
 	int i, j;
-		
+
 	grayScale = fopen("grayScale.ppm", "w+");
 
 	fprintf(grayScale, "P3\n");
 	fprintf(grayScale, "%i %i\n", img->width, img->height);
+	fprintf(grayScale, "255\n");
+	//debug
 	printf("%i\n", img->pixels[0][0].r);
-	printf("%i\n", (int)(img->pixels[0][0].r*1.3));
+	printf("%i\n", (int)(img->pixels[0][0].r*0.3));
 
 	for(i = 0; i < img->width; i++){
 		for(j = 0; j < img->height; j++){
-			int luminance = (int)(img->pixels[i][j].r*1.3 + img->pixels[i][j].g*1.59 +
-				img->pixels[i][j].b*1.11);
+			int luminance = (int)(img->pixels[i][j].r*0.3 + img->pixels[i][j].g*0.59 +
+				img->pixels[i][j].b*0.11);
 			fprintf(grayScale, "%i\n", luminance);
 			fprintf(grayScale, "%i\n", luminance);
 			fprintf(grayScale, "%i\n", luminance);
 		}
 	}
+}
+
+
+Image * gaussianFilter(Image *img){
+
+	int i, j, k, l, newpx = 0;
+	Pixel * px;
+	int sum, div;
+	int filter[5][5] = {{ 2,  4,  5,  4, 2 },
+			    { 4,  9, 12,  9, 4 },
+		            { 5, 12, 15, 12, 5 },
+		            { 4,  9, 12,  9, 4 },
+		            { 2,  4,  5,  4, 2 }};
+
+	Image  *filteredImage = buildImage( img->width, img->height );
+	
+	for(i = 0; i < img->width; i++){
+		for(j = 0; j < img->height; j++){
+			sum = 0;
+			div = 0;
+			for(k = 0; k < 5; k++){
+				for(l = 0; l < 5; l++){
+					if((i+k >= 0 && i+k < img->width) && (j+l >= 0 && j+l < img->height)){ 
+						sum += (img->pixels[i+k][j+l].r * filter[k][l]);
+						div += filter[k][l];
+					}
+				}
+			}
+			newpx = sum / div;
+
+			filteredImage->pixels[i][j].r = newpx;
+			filteredImage->pixels[i][j].g = newpx;
+			filteredImage->pixels[i][j].b = newpx;
+		}
+	}
+	return filteredImage;
+}
+
+int saveImage(char *file, Image *img){
+
+	int i = 0;
+	int j = 0;
+
+	FILE * fileName = fopen( file , "w" );
+
+	if(!fileName)
+		return -1;
+
+	fprintf( fileName, "P3\n");
+	fprintf( fileName, "%d %d\n", img->width, img->height );
+	fprintf( fileName, "255\n" );
+
+	for(i = 0; i < img->width; i++){
+		for(j = 0; j < img->height; j++){
+
+		    fprintf( fileName, "%u\n", img->pixels[i][j].r );
+		    fprintf( fileName, "%u\n", img->pixels[i][j].g );
+		    fprintf( fileName, "%u\n", img->pixels[i][j].b );
+		}
+	}
+
+	fclose(fileName);
+
+	return 0;
+
 }
