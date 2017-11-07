@@ -4,7 +4,7 @@
 *
 * @params FILE *file_img
 **/
-void skip_comments(FILE *file_img) {
+void skipComments(FILE *file_img) {
     // Cria uma variável para armazenar cada caracter do comentário
     char buffer = fgetc(file_img);
 
@@ -55,18 +55,18 @@ Image * buildImage( int width, int height ){
 
 	Image *img = malloc(sizeof(Image));
 	
-	if(! img){
-		printf("A imagem não conseguiu ser alocada na memória");
+	if(!img){
+		printf("Não foi possível alocar a imagem na memória");
 		exit(1);
 	}
 	
 	img->width = width;
 	img->height = height;
 
-	img->pixels = (Pixel **)malloc(sizeof(Pixel*) * img->width);
+	img->pixels = (Pixel **)malloc(sizeof(Pixel*) * img->height);
 
-	for( i = 0; i < width; i++ )
-		img->pixels[i] = (Pixel*)malloc(img->height * sizeof(Pixel));
+	for( i = 0; i < height; i++ )
+		img->pixels[i] = (Pixel*)malloc(img->width * sizeof(Pixel));
 
 	return img;
 }
@@ -91,22 +91,22 @@ Image * getImage(FILE *file){
 		exit(1);
 	}
 
-  	skip_comments(file);
+  	skipComments(file);
 	fscanf(file, "%d %d", &width, &height);
 
 	fscanf(file, "%d", &tamanhoMaximo);
 	
 	Image *img = buildImage(width, height);
 
-	for(i = 0; i < img->width; i++){
-		for(j = 0; j < img->height; j++){
-			skip_comments(file);
+	for(i = 0; i < img->height; i++){
+		for(j = 0; j < img->width; j++){
+			skipComments(file);
 			fscanf(file, "%i", &img->pixels[i][j].r);
-			skip_comments(file);
+			skipComments(file);
 			fscanf(file, "%i", &img->pixels[i][j].g);
-			skip_comments(file);
+			skipComments(file);
 			fscanf(file, "%i", &img->pixels[i][j].b);
-			skip_comments(file);
+			skipComments(file);
 		}
 	}
 
@@ -130,12 +130,9 @@ void grayScale(Image *img){
 	fprintf(grayScale, "P3\n");
 	fprintf(grayScale, "%i %i\n", img->width, img->height);
 	fprintf(grayScale, "255\n");
-	//debug
-	printf("%i\n", img->pixels[0][0].r);
-	printf("%i\n", (int)(img->pixels[0][0].r*0.3));
 
-	for(i = 0; i < img->width; i++){
-		for(j = 0; j < img->height; j++){
+	for(i = 0; i < img->height; i++){
+		for(j = 0; j < img->width; j++){
 			int luminance = (int)(img->pixels[i][j].r*0.3 + img->pixels[i][j].g*0.59 +
 				img->pixels[i][j].b*0.11);
 			fprintf(grayScale, "%i\n", luminance);
@@ -145,6 +142,15 @@ void grayScale(Image *img){
 	}
 }
 
+Pixel * pixelReturn(Image *img, int width, int height){
+
+    if( width >= img->width ) width = img->width - 1;
+    if( height >= img->height ) height = img->height - 1;
+    if( width < 0 ) width = 0;
+    if( height < 0 ) height = 0;
+
+    return &img->pixels[height][width];
+}
 
 Image * gaussianFilter(Image *img){
 
@@ -157,25 +163,25 @@ Image * gaussianFilter(Image *img){
 		            { 4,  9, 12,  9, 4 },
 		            { 2,  4,  5,  4, 2 }};
 
-	Image  *filteredImage = buildImage( img->width, img->height );
+	Image  *filteredImage = buildImage(img->width, img->height);
 	
-	for(i = 0; i < img->width; i++){
-		for(j = 0; j < img->height; j++){
+	for(i = 0; i < img->height; i++){
+		for(j = 0; j < img->width; j++){
 			sum = 0;
 			div = 0;
 			for(k = 0; k < 5; k++){
 				for(l = 0; l < 5; l++){
-					if((i+k >= 0 && i+k < img->width) && (j+l >= 0 && j+l < img->height)){ 
-						sum += (img->pixels[i+k][j+l].r * filter[k][l]);
-						div += filter[k][l];
-					}
+			                px = pixelReturn(img,  j + (l - 2), i + (k - 2));
+					sum += (px->r * filter[k][l]);
+					div += filter[k][l];
+					
 				}
 			}
 			newpx = sum / div;
 
-			filteredImage->pixels[i][j].r = newpx;
-			filteredImage->pixels[i][j].g = newpx;
-			filteredImage->pixels[i][j].b = newpx;
+			filteredImage->pixels[i][j].r = (int) newpx;
+			filteredImage->pixels[i][j].g = (int) newpx;
+			filteredImage->pixels[i][j].b = (int) newpx;
 		}
 	}
 	return filteredImage;
@@ -195,12 +201,12 @@ int saveImage(char *file, Image *img){
 	fprintf( fileName, "%d %d\n", img->width, img->height );
 	fprintf( fileName, "255\n" );
 
-	for(i = 0; i < img->width; i++){
-		for(j = 0; j < img->height; j++){
+	for(i = 0; i < img->height; i++){
+		for(j = 0; j < img->width; j++){
 
-		    fprintf( fileName, "%u\n", img->pixels[i][j].r );
-		    fprintf( fileName, "%u\n", img->pixels[i][j].g );
-		    fprintf( fileName, "%u\n", img->pixels[i][j].b );
+		    fprintf(fileName, "%d\n", img->pixels[i][j].r);
+		    fprintf(fileName, "%d\n", img->pixels[i][j].g);
+		    fprintf(fileName, "%d\n", img->pixels[i][j].b);
 		}
 	}
 
