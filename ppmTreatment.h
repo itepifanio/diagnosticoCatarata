@@ -1,6 +1,6 @@
 /**
-* Check the file to check if has comment on line
-* if has a comment, his will be ignored
+* Go through the file to check if it has any comments
+* if there is a comment, it will be ignored
 *
 * @params FILE *file_img
 **/
@@ -74,7 +74,7 @@ Image * buildImage( int width, int height ){
 /**
 * Read a file line per line.
 * Create a primitive type Image img and
-* set your params width, height and
+* set its params width, height and
 * your pixels, returning
 *
 * @params FILE *file

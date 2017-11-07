@@ -17,15 +17,15 @@ typedef struct Pixels
 } Pixel;
 
 /**
-* A new typedef who read an image
+* A new typedef that read an image
 * with width, height integer,
 * an header char[54] and the 
-* Pixel typedef
+* typedef Pixel
 **/
 typedef struct Images
 {
 	int width, height;
-	char header[54];
+	int maxLength;
 	Pixel **pixels;
 } Image;
 
