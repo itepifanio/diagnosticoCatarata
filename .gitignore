@@ -3,6 +3,7 @@
 *.c~
 exec
 grayScale.ppm
+filtroGausssiano.ppm
 
 # Prerequisites
 *.d
