@@ -72,7 +72,7 @@ Image * gaussianFilter(Image *img){
 *
 *
 **/
-void sobelFilter(Image *img){
+Image * sobelFilter(Image *img){
 	int sobelX[3][3] = {
 		{ 1, 2, 1},
 		{ 0, 0, 0},			
@@ -85,58 +85,37 @@ void sobelFilter(Image *img){
 		{-1, 0, 1},
 	};
 
-	FILE *sobelFilter = fopen("sobelFilter.ppm", "w+");
-
-	fprintf(sobelFilter, "P3\n");
-	fprintf(sobelFilter, "%i %i\n", img->width, img->height);
-	fprintf(sobelFilter, "255\n");
-
+	Image  *filteredImage = buildImage(img->width, img->height);
+	
 	/*Sobel é o valor inteiro que corresponde a fórmula
-		int sobel = sqrt(valueX^2 + valueX^2);
+		int sobel = sqrt(valueX^2 + valueY^2);
 	*/
-	int valueX, valueY, sobel;
-	int i, j;
+	int valueX=0, valueY=0, sobel;
+	int i, j, k, l;
 
 	//Não pegar as bordas da imagem, pois retorna segmentation fault
-	for(i = 1; i < img->height-1; i++){
-		for(j = 1; j < img->width-1; j++){
-			valueX = (
-				(sobelX[0][0] * img->pixels[i-1][j-1].r) +
-				(sobelX[0][1] * img->pixels[i][j-1].r) +
-				(sobelX[0][2] * img->pixels[i+1][j-1].r) +
-			        (sobelX[1][0] * img->pixels[i-1][j].r) +
-			        (sobelX[1][1] * img->pixels[i][j].r) +
-				(sobelX[1][2] * img->pixels[i+1][j].r) +
-			        (sobelX[2][0] * img->pixels[i-1][j+1].r) +
-				(sobelX[2][1] * img->pixels[i][j+1].r) +
-				(sobelX[2][2] * img->pixels[i+1][j+1].r)
-			);
+	for(i = 1; i < img->height-1; ++i){
+		for(j = 1; j < img->width-1; ++j){
+			valueX=0;
+			valueY=0;
+			for(k = 0; k < 3; ++k){
+				for(l = 0; l < 3; ++l){	
+					valueX += img->pixels[i-1+k][j-1+l].r * sobelX[k][l];
+					valueY += img->pixels[i-1+k][j-1+l].r * sobelY[k][l];
 
-			valueY = (
-				(sobelY[0][0] * img->pixels[i-1][j-1].r) +
-				(sobelY[0][1] * img->pixels[i][j-1].r) +
-				(sobelY[0][2] * img->pixels[i+1][j-1].r) +
-			        (sobelY[1][0] * img->pixels[i-1][j].r) +
-			        (sobelY[1][1] * img->pixels[i][j].r) +
-				(sobelY[1][2] * img->pixels[i+1][j].r) +
-			        (sobelY[2][0] * img->pixels[i-1][j+1].r) +
-				(sobelY[2][1] * img->pixels[i][j+1].r) +
-				(sobelY[2][2] * img->pixels[i+1][j+1].r)
-			);
-			
+					sobel = (int)(sqrt(pow(valueX, 2) + pow(valueY, 2)));
 
-			sobel = (int)(sqrt(pow(valueX, 2) + pow(valueY, 2)));
+					if(sobel > 255){
+						sobel = 255;
+					}
 
-			printf("%i\n", sobel);
-
-			if(sobel > 255){
-				sobel = 255;
+					filteredImage->pixels[i][j].r = (int) sobel;
+					filteredImage->pixels[i][j].g = (int) sobel;
+					filteredImage->pixels[i][j].b = (int) sobel;
+				}
 			}
-
-			fprintf(sobelFilter, "%i\n", sobel);
-			fprintf(sobelFilter, "%i\n", sobel);
-			fprintf(sobelFilter, "%i\n", sobel);
 		}
 	}
 
+	return filteredImage;
 }

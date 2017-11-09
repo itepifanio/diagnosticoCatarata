@@ -12,8 +12,11 @@ int main(){
 	//printf("Altura: %i\n", image->height);	
 
 	Image *batata = grayScale(image);
-	sobelFilter(batata);
+	saveImage("grayScale.ppm", batata);
 
 	Image *filteredImage = gaussianFilter(image);
 	saveImage("gaussianFilter.ppm", filteredImage);
+
+	Image *sobel = sobelFilter(batata);
+	saveImage("sobel.ppm", sobel);
 }
