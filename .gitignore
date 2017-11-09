@@ -2,7 +2,12 @@
 *.h~
 *.c~
 exec
+main
 grayScale.ppm
+filtroGausssiano.ppm
+sobel.ppm
+gaussianFilter.ppm
+sobelFilter.ppm
 
 # Prerequisites
 *.d

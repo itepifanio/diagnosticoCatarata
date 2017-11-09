@@ -82,11 +82,11 @@ Image * buildImage( int width, int height ){
 **/
 Image * getImage(FILE *file){
 	char header[3];
-	int width, height, i, j, tamanhoMaximo;
+	int width, height, i, j, maxPixelValue;
 
 	fscanf(file, "%s ", header);
 
-	if(header[0] != 'P' && header[1]!= '3'){
+	if(header[0] != 'P' && header[1]!= '3'){	
 		printf("Tipo da imagem não suportado");
 		exit(1);
 	}
@@ -94,7 +94,7 @@ Image * getImage(FILE *file){
   	skipComments(file);
 	fscanf(file, "%d %d", &width, &height);
 
-	fscanf(file, "%d", &tamanhoMaximo);
+	fscanf(file, "%d", &maxPixelValue);
 	
 	Image *img = buildImage(width, height);
 
@@ -115,32 +115,6 @@ Image * getImage(FILE *file){
 	return img;
 }
 
-/**
-* Create a gray scale image
-*
-* @params Image *img
-**/
-
-void grayScale(Image *img){
-	FILE *grayScale;
-	int i, j;
-
-	grayScale = fopen("grayScale.ppm", "w+");
-
-	fprintf(grayScale, "P3\n");
-	fprintf(grayScale, "%i %i\n", img->width, img->height);
-	fprintf(grayScale, "255\n");
-
-	for(i = 0; i < img->height; i++){
-		for(j = 0; j < img->width; j++){
-			int luminance = (int)(img->pixels[i][j].r*0.3 + img->pixels[i][j].g*0.59 +
-				img->pixels[i][j].b*0.11);
-			fprintf(grayScale, "%i\n", luminance);
-			fprintf(grayScale, "%i\n", luminance);
-			fprintf(grayScale, "%i\n", luminance);
-		}
-	}
-}
 
 Pixel * pixelReturn(Image *img, int width, int height){
 
@@ -150,41 +124,6 @@ Pixel * pixelReturn(Image *img, int width, int height){
     if( height < 0 ) height = 0;
 
     return &img->pixels[height][width];
-}
-
-Image * gaussianFilter(Image *img){
-
-	int i, j, k, l, newpx = 0;
-	Pixel * px;
-	int sum, div;
-	int filter[5][5] = {{ 2,  4,  5,  4, 2 },
-			    { 4,  9, 12,  9, 4 },
-		            { 5, 12, 15, 12, 5 },
-		            { 4,  9, 12,  9, 4 },
-		            { 2,  4,  5,  4, 2 }};
-
-	Image  *filteredImage = buildImage(img->width, img->height);
-	
-	for(i = 0; i < img->height; i++){
-		for(j = 0; j < img->width; j++){
-			sum = 0;
-			div = 0;
-			for(k = 0; k < 5; k++){
-				for(l = 0; l < 5; l++){
-			                px = pixelReturn(img,  j + (l - 2), i + (k - 2));
-					sum += (px->r * filter[k][l]);
-					div += filter[k][l];
-					
-				}
-			}
-			newpx = sum / div;
-
-			filteredImage->pixels[i][j].r = (int) newpx;
-			filteredImage->pixels[i][j].g = (int) newpx;
-			filteredImage->pixels[i][j].b = (int) newpx;
-		}
-	}
-	return filteredImage;
 }
 
 int saveImage(char *file, Image *img){
