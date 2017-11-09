@@ -82,7 +82,7 @@ Image * buildImage( int width, int height ){
 **/
 Image * getImage(FILE *file){
 	char header[3];
-	int width, height, i, j, tamanhoMaximo;
+	int width, height, i, j, maxPixelValue;
 
 	fscanf(file, "%s ", header);
 
@@ -94,7 +94,7 @@ Image * getImage(FILE *file){
   	skipComments(file);
 	fscanf(file, "%d %d", &width, &height);
 
-	fscanf(file, "%d", &tamanhoMaximo);
+	fscanf(file, "%d", &maxPixelValue);
 	
 	Image *img = buildImage(width, height);
 
