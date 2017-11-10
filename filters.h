@@ -63,6 +63,7 @@ Image * gaussianFilter(Image *img){
 			filteredImage->pixels[i][j].b = (int) newpx;
 		}
 	}
+
 	return filteredImage;
 }
 
@@ -118,4 +119,27 @@ Image * sobelFilter(Image *img){
 	}
 
 	return filteredImage;
+}
+
+Image * binary(Image *img){
+	int threshold = 47;
+	int i, j;
+	Image *binary = buildImage(img->width, img->height);
+
+	for(i = 1; i < img->height-1; i++){
+		for(j = 1; j < img->width-1; j++){
+			if(img->pixels[i][j].r > threshold){
+				binary->pixels[i][j].r = 255;				
+				binary->pixels[i][j].g = 255;
+				binary->pixels[i][j].b = 255;
+			}else{
+				binary->pixels[i][j].r = 0;				
+				binary->pixels[i][j].g = 0;
+				binary->pixels[i][j].b = 0;
+			}  			
+		}
+	}
+
+	return binary;
+		
 }

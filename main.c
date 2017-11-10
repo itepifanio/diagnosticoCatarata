@@ -17,6 +17,9 @@ int main(){
 	Image *filteredImage = gaussianFilter(image);
 	saveImage("gaussianFilter.ppm", filteredImage);
 
-	Image *sobel = sobelFilter(batata);
+	Image *sobel = sobelFilter(filteredImage);
 	saveImage("sobel.ppm", sobel);
+	//Tentativa binaria
+	Image *binaryImage = binary(sobel);
+	saveImage("binary.ppm", binaryImage);
 }
