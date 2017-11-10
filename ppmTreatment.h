@@ -126,7 +126,7 @@ Pixel * pixelReturn(Image *img, int width, int height){
     return &img->pixels[height][width];
 }
 
-int saveImage(char *file, Image *img){
+int saveImage(char *file, Image *img, int comp){
 
 	int i = 0;
 	int j = 0;
@@ -138,7 +138,7 @@ int saveImage(char *file, Image *img){
 
 	fprintf( fileName, "P3\n");
 	fprintf( fileName, "%d %d\n", img->width, img->height );
-	fprintf( fileName, "255\n" );
+	fprintf( fileName, "%d\n", comp);
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){

@@ -12,14 +12,14 @@ int main(){
 	//printf("Altura: %i\n", image->height);	
 
 	Image *batata = grayScale(image);
-	saveImage("grayScale.ppm", batata);
+	saveImage("grayScale.ppm", batata, 255);
 
-	Image *filteredImage = gaussianFilter(image);
-	saveImage("gaussianFilter.ppm", filteredImage);
+	Image *filteredImage = gaussianFilter(batata);
+	saveImage("gaussianFilter.ppm", filteredImage, 255);
 
 	Image *sobel = sobelFilter(filteredImage);
-	saveImage("sobel.ppm", sobel);
+	saveImage("sobel.ppm", sobel, 255);
 	//Tentativa binaria
 	Image *binaryImage = binary(sobel);
-	saveImage("binary.ppm", binaryImage);
+	saveImage("binary.ppm", binaryImage, 255);
 }
