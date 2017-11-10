@@ -71,7 +71,8 @@ Image * gaussianFilter(Image *img){
 * Applying sobel filter.
 * Receiving gray scale file and filtering
 *
-*
+* @params Image *img
+* return Image filteredImage
 **/
 Image * sobelFilter(Image *img){
 	int sobelX[3][3] = {
@@ -121,6 +122,16 @@ Image * sobelFilter(Image *img){
 	return filteredImage;
 }
 
+
+/**
+* Applying the binary process on a image, 
+* creating a new image which will have  
+* binary values, 255 and 0. 255 represent 
+* the white color and the 0 the black.
+*
+* @params Image *img
+* return Image filteredImage
+**/
 Image * binary(Image *img){
 	int threshold = 47;
 	int i, j;
