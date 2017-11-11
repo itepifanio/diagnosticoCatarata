@@ -133,7 +133,7 @@ int saveImage(char *file, Image *img, int comp){
 
 	FILE * fileName = fopen( file , "w" );
 
-	if(!fileName)
+	if(! fileName)
 		return -1;
 
 	fprintf( fileName, "P3\n");
@@ -142,10 +142,14 @@ int saveImage(char *file, Image *img, int comp){
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){
-
-		    fprintf(fileName, "%d\n", img->pixels[i][j].r);
-		    fprintf(fileName, "%d\n", img->pixels[i][j].g);
-		    fprintf(fileName, "%d\n", img->pixels[i][j].b);
+			if(img->pixels[i][j].r > 255 || img->pixels[i][j].g > 255 || img->pixels[i][j].b > 255){
+				img->pixels[i][j].r = 255;
+				img->pixels[i][j].g = 255;
+				img->pixels[i][j].b = 255;
+			}
+			fprintf(fileName, "%d\n", img->pixels[i][j].r);
+			fprintf(fileName, "%d\n", img->pixels[i][j].g);
+			fprintf(fileName, "%d\n", img->pixels[i][j].b);
 		}
 	}
 
