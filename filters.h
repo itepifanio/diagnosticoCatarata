@@ -140,9 +140,9 @@ Image * binary(Image *img){
 	for(i = 1; i < img->height-1; i++){
 		for(j = 1; j < img->width-1; j++){
 			if(img->pixels[i][j].r > threshold){
-				binary->pixels[i][j].r = 255;				
-				binary->pixels[i][j].g = 255;
-				binary->pixels[i][j].b = 255;
+				binary->pixels[i][j].r = 1;				
+				binary->pixels[i][j].g = 1;
+				binary->pixels[i][j].b = 1;
 			}else{
 				binary->pixels[i][j].r = 0;				
 				binary->pixels[i][j].g = 0;

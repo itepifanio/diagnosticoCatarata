@@ -21,5 +21,5 @@ int main(){
 	saveImage("sobel.ppm", sobel, 255);
 	//Tentativa binaria
 	Image *binaryImage = binary(sobel);
-	saveImage("binary.ppm", binaryImage, 255);
+	saveImage("binary.ppm", binaryImage, 1);
 }
