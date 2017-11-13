@@ -6,18 +6,20 @@
 
 int main(){
 	int i, j;
-	FILE *file = readFile("images/Normal2.ppm");
+	FILE *file = readFile("images/Catarata.ppm");
 	Image *image = getImage(file);
 
-	Image *batata = grayScale(image);
-	saveImage("images/grayScale.ppm", batata, 255);
+	Image *grayImage = grayScale(image);
+	saveImage("images/grayScale.ppm", grayImage, 255);
 
-	Image *filteredImage = gaussianFilter(batata);
+	Image *filteredImage = gaussianFilter(grayImage);
 	saveImage("images/gaussianFilter.ppm", filteredImage, 255);
+	freeMemory(grayImage);
 
 	Image *sobel = sobelFilter(filteredImage);
 	saveImage("images/sobel.ppm", sobel, 255);
-	//Tentativa binaria
+	freeMemory(filteredImage);
+
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
 }

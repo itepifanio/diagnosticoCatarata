@@ -5,28 +5,21 @@
 * @params FILE *file_img
 **/
 void skipComments(FILE *file_img) {
-    // Cria uma variável para armazenar cada caracter do comentário
     char buffer = fgetc(file_img);
 
-    // Repete o laço enquanto a variável de buffer for igual a um '#'
     do {
-        if (buffer == '#')
-            // Se buffer for igual a '#', é por que está iniciando
-            // um comentário, então a variável buffer recebe cada
-            // caractere até que ele seja uma quebra de linha
-            while (buffer != '\n')
+        if (buffer == '#'){
+            while (buffer != '\n'){
                 buffer = fgetc(file_img);
-        else
-            // Caso contrário, não é um comentário, então "devolve"
-            // para o arquivo, para que ele possa ser lido novamente
+	    	}
+
+		}else{
             ungetc(buffer, file_img);
-        // buffer pega novamente um caracter (para verificar
-        // se tem mais algum comentário no arquivo)
+		}
+        
         buffer = fgetc(file_img);
     } while (buffer == '#');
-    // Quando o laço acabar (o último caracter pego for
-    // diferente de um '#'), "devolve" para o arquivo o
-    // caracter que está em buffer, pois não é um comentário
+    
     ungetc(buffer, file_img);
 }
 
@@ -69,6 +62,16 @@ Image * buildImage(int width, int height){
 		img->pixels[i] = (Pixel*)malloc(img->width * sizeof(Pixel));
 
 	return img;
+}
+
+void freeMemory(Image * img){
+    int i = 0;
+
+    for(i = 0; i < img->height; i++)
+        free(img->pixels[i]);
+
+    free(img->pixels);
+    free(img);
 }
 
 /**
