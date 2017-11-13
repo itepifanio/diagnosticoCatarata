@@ -7,28 +7,18 @@
 **/
 
 Image * grayScale(Image *img){
-	FILE *grayScale = fopen("grayScale.ppm", "w+");;
 	int i, j;
-
-	fprintf(grayScale, "P3\n");
-	fprintf(grayScale, "%i %i\n", img->width, img->height);
-	fprintf(grayScale, "255\n");
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){
-			int luminance = (int)(img->pixels[i][j].r*0.3 + img->pixels[i][j].g*0.59 +
+			img->pixels[i][j].r = (int)(img->pixels[i][j].r*0.3 + img->pixels[i][j].g*0.59 +
 				img->pixels[i][j].b*0.11);
-			fprintf(grayScale, "%i\n", luminance);
-			fprintf(grayScale, "%i\n", luminance);
-			fprintf(grayScale, "%i\n", luminance);
+            img->pixels[i][j].g = img->pixels[i][j].r;
+            img->pixels[i][j].b = img->pixels[i][j].r;
 		}
 	}
 
-	FILE *file = readFile("grayScale.ppm");
-
-	Image *newGrayImage = getImage(file);
-
-	return newGrayImage;
+	return img;
 }
 
 Image * gaussianFilter(Image *img){
@@ -133,16 +123,16 @@ Image * sobelFilter(Image *img){
 * return Image filteredImage
 **/
 Image * binary(Image *img){
-	int threshold = 47;
+	int threshold = 28;
 	int i, j;
 	Image *binary = buildImage(img->width, img->height);
 
 	for(i = 1; i < img->height-1; i++){
 		for(j = 1; j < img->width-1; j++){
 			if(img->pixels[i][j].r > threshold){
-				binary->pixels[i][j].r = 1;				
-				binary->pixels[i][j].g = 1;
-				binary->pixels[i][j].b = 1;
+				binary->pixels[i][j].r = 255;				
+				binary->pixels[i][j].g = 255;
+				binary->pixels[i][j].b = 255;
 			}else{
 				binary->pixels[i][j].r = 0;				
 				binary->pixels[i][j].g = 0;

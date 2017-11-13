@@ -50,7 +50,7 @@ FILE * readFile(char filename[]){
 }
 
 
-Image * buildImage( int width, int height ){
+Image * buildImage(int width, int height){
 	int i = 0;
 
 	Image *img = malloc(sizeof(Image));
@@ -75,7 +75,7 @@ Image * buildImage( int width, int height ){
 * Read a file line per line.
 * Create a primitive type Image img and
 * set its params width, height and
-* your pixels, returning
+* its pixels, returning
 *
 * @params FILE *file
 * @return Image img
@@ -131,7 +131,7 @@ int saveImage(char *file, Image *img, int comp){
 	int i = 0;
 	int j = 0;
 
-	FILE * fileName = fopen( file , "w" );
+	FILE * fileName = fopen(file , "w");
 
 	if(! fileName)
 		return -1;
@@ -142,11 +142,9 @@ int saveImage(char *file, Image *img, int comp){
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){
-			if(img->pixels[i][j].r > 255 || img->pixels[i][j].g > 255 || img->pixels[i][j].b > 255){
-				img->pixels[i][j].r = 255;
-				img->pixels[i][j].g = 255;
-				img->pixels[i][j].b = 255;
-			}
+			if(img->pixels[i][j].r > 255) img->pixels[i][j].r = 255;
+			if(img->pixels[i][j].b > 255) img->pixels[i][j].g = 255;
+			if(img->pixels[i][j].b > 255) img->pixels[i][j].b = 255;
 			fprintf(fileName, "%d\n", img->pixels[i][j].r);
 			fprintf(fileName, "%d\n", img->pixels[i][j].g);
 			fprintf(fileName, "%d\n", img->pixels[i][j].b);
