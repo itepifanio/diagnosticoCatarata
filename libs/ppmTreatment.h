@@ -145,9 +145,12 @@ int saveImage(char *file, Image *img, int comp){
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){
-			if(img->pixels[i][j].r > 255) img->pixels[i][j].r = 255;
-			if(img->pixels[i][j].b > 255) img->pixels[i][j].g = 255;
-			if(img->pixels[i][j].b > 255) img->pixels[i][j].b = 255;
+			if(img->pixels[i][j].r > 255) img->pixels[i][j].r = 1;
+			if(img->pixels[i][j].g > 255) img->pixels[i][j].g = 1;
+			if(img->pixels[i][j].b > 255) img->pixels[i][j].b = 1;
+			if(img->pixels[i][j].r < 0) img->pixels[i][j].r = 0;
+			if(img->pixels[i][j].g < 0) img->pixels[i][j].g = 0;
+			if(img->pixels[i][j].b < 0) img->pixels[i][j].b = 0;
 			fprintf(fileName, "%d\n", img->pixels[i][j].r);
 			fprintf(fileName, "%d\n", img->pixels[i][j].g);
 			fprintf(fileName, "%d\n", img->pixels[i][j].b);
