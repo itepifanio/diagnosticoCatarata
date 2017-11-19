@@ -162,3 +162,52 @@ int saveImage(char *file, Image *img, int comp){
 	return 0;
 
 }
+
+/*
+Image * adaptiveThreshold(Image * img){
+	int i, j, k, l, m, n, max, min, media, limiar=0;
+	
+	for(i = 1; i < img->height-1; ++i){
+		for(j = 1; j < img->width-1; ++j){
+			max = -1;
+			min = 256;
+			//Recuperando o valor máximo e min dos vizinhos
+			for(k = 0; k < 3; ++k){
+				for(l = 0; l < 3; ++l){	
+					if(img->pixels[i-1+k][j-1+l].r > max){
+						max = img->pixels[i-1+k][j-1+l].r;
+					}
+					if(img->pixels[i-1+k][j-1+l].r < min){
+						min = img->pixels[i-1+k][j-1+l].r;
+					}
+				}
+			}
+			media = (max - min)/2;
+			
+			//128 é o contraste das imagens
+			if((max - min) > 128){
+				limiar = media/2;
+			}else if(media < 100){
+				limiar = max;
+			}else{
+				limiar = min;
+			}
+			for(m = 1; m < img->height-1; ++m){
+				for(n = 1; n < img->width-1; ++n){
+					if(img->pixels[m][n].r > limiar){
+						img->pixels[m][n].r = 1;
+						img->pixels[m][n].g = 1;
+						img->pixels[m][n].b = 1;
+					}else{
+						img->pixels[m][n].r = 0;
+						img->pixels[m][n].g = 0;
+						img->pixels[m][n].b = 0;
+					}
+				}
+			}							
+		}
+	}		
+	
+	return img;
+}
+*/
