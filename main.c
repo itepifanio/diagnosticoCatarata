@@ -23,6 +23,6 @@ int main(){
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
 	
-	houghTransform(binaryImage, image);
-	
+	Image *hough = houghTransform(binaryImage, image);
+	saveImage("images/hough.ppm", hough, 255);
 }

@@ -154,7 +154,7 @@ Image * binary(Image *img){
 **/
 Image * houghTransform(Image *img, Image *coloredImg){
 	//Helper parameters
-	int i, j, k, l, count, icount, jcount, imax, jmax;
+	int i, j;
 	//Cicle parameters
 	int r, a, b, t;
 	
@@ -162,7 +162,6 @@ Image * houghTransform(Image *img, Image *coloredImg){
 	The circles will be detect using the max and min radius.
 	*/
 	int rmin = 10;
-	int rminIris = 50;
 	int rmax = 60;
 
 	
@@ -172,14 +171,11 @@ Image * houghTransform(Image *img, Image *coloredImg){
 	for(i = 0; i < img->height; i++){
 		houghValues[i] = (int**)calloc(img->width, sizeof(int*));
 		for(j = 0; j < img->width; j++){
-			houghValues[i][j] = (int*)calloc(rmax - rmin, sizeof(int));
+			houghValues[i][j] = (int*)calloc(rmax, sizeof(int));
 		}
 	}
 	
-	
-	
 	//Processing pixels
-
 	for(i = 1; i < img->height-1; i++){
 		for(j = 1; j < img->width-1; j++){
 			if(img->pixels[i][j].r == 1){
@@ -187,72 +183,41 @@ Image * houghTransform(Image *img, Image *coloredImg){
 					for(t = 0; t <= 360; t++){
 						a = (int)(i - r * cos((double)(t * (PI/180))));
 						b = (int)(j - r * sin((double)(t* (PI/180))));
-						if((b > 0) & (b < img->height-1) & (a > 0) & (a < img->width-1) & (r > rmin) & (r > rmax)){
-							houghValues[a][b][r] += 1; 
+						if((a >= 0) & (a < img->height) & (b >= 0) & (b < img->width)){
+							houghValues[a][b][r] += 1;
 						}
 					}
 				}
 			}
 		}
 	}
-
-	/*
-	for(i = rmin; i < img->height - rmax; i++){
-		for(j = rmin; j < img->width - rmax; j++){
-			for(r = rminIris; r <= rmax; r++){
-				//Tentar implementar o máximo de circulos encontrados
-				//Em vez desse threshold
-				if(houghValues[i][j][r] >= 0.8*max){
-					count++;
-					icount += i;
-					jcount += j;
+	
+	//Searching max values for girth
+	int imax, jmax;
+	double max = 0;
+	int raux = 0;
+	for(i = 1; i < img->height-1; i++){
+		for(j = 1; j < img->width-1; j++){
+			for(r = rmin; r <= rmax; r++){
+				if(houghValues[i][j][r] > max){
+					max = houghValues[i][j][r];
+					raux = r;
 				}
 			}
-		}
+		}	
 	}
 	
-	imax = icount/count;
-	jmax = jcount/count;
-	
-	Center *center = malloc(sizeof(Center));
-	
-	center->i = imax;
-	center->j = jmax;
-	center->r = 0;
-	
-	max = 0;
-	
-	int raios[rmax-rmin+1];
-	int diferentRMax;
-	int countRaios = 0;
-	
-	for (r=rmin; r <= rmax+1; r++) {
-		if ((A[imax][jmax][r] == 0 && max != 0) || (r == rmax+1)) {
-			max = 0;
-			raios[countRaios++] = diferentRMax;
-			continue;
-		}
-		if (A[imax][jmax][r] > max) {
-			max = A[imax][jmax][r];
-			diferentRMax = r;
-		}
-	}
-
-	//Atraves dos maximos encontrados, achamos qual maximo pertence a pupila
-	for (i=0; i < countRaios; i++) {
-		if (i == countRaios-1) {
-			center->r = raios[i];
-		}
-		else if (raios[i] > (double) (raios[i+1])/3) {
-			center->r = raios[i];
-			if (i+1 == countRaios-1) {
-				break;
+	for(i = 1; i < img->height-1; i++){
+		for(j = 1; j < img->width-1; j++){
+			if(img->pixels[i][j].r < houghValues[i][j][raux]){
+				img->pixels[i][j].r = 255;
+				img->pixels[i][j].g = 0;
+				img->pixels[i][j].b = 0;
 			}
 		}
-	}
-	*/
+	}	
 	
-	return coloredImg;
+	return img;
 }
 
 
