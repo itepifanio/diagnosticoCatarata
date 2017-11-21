@@ -187,7 +187,7 @@ Image * houghTransform(Image *img, Image *coloredImg){
 					for(t = 0; t <= 360; t++){
 						a = (int)(i - r * cos((double)(t * (PI/180))));
 						b = (int)(j - r * sin((double)(t* (PI/180))));
-						if((b > 0) & (b < img->height-1) & (a > 0) & (a < img->width-1) & (r > rmin) & (r > rmax)){
+						if((b > 0) & (b < img->height-1) & (a > 0) & (a < img->width-1)){
 							houghValues[a][b][r] += 1; 
 						}
 					}
@@ -195,62 +195,6 @@ Image * houghTransform(Image *img, Image *coloredImg){
 			}
 		}
 	}
-
-	/*
-	for(i = rmin; i < img->height - rmax; i++){
-		for(j = rmin; j < img->width - rmax; j++){
-			for(r = rminIris; r <= rmax; r++){
-				//Tentar implementar o máximo de circulos encontrados
-				//Em vez desse threshold
-				if(houghValues[i][j][r] >= 0.8*max){
-					count++;
-					icount += i;
-					jcount += j;
-				}
-			}
-		}
-	}
-	
-	imax = icount/count;
-	jmax = jcount/count;
-	
-	Center *center = malloc(sizeof(Center));
-	
-	center->i = imax;
-	center->j = jmax;
-	center->r = 0;
-	
-	max = 0;
-	
-	int raios[rmax-rmin+1];
-	int diferentRMax;
-	int countRaios = 0;
-	
-	for (r=rmin; r <= rmax+1; r++) {
-		if ((A[imax][jmax][r] == 0 && max != 0) || (r == rmax+1)) {
-			max = 0;
-			raios[countRaios++] = diferentRMax;
-			continue;
-		}
-		if (A[imax][jmax][r] > max) {
-			max = A[imax][jmax][r];
-			diferentRMax = r;
-		}
-	}
-
-	//Atraves dos maximos encontrados, achamos qual maximo pertence a pupila
-	for (i=0; i < countRaios; i++) {
-		if (i == countRaios-1) {
-			center->r = raios[i];
-		}
-		else if (raios[i] > (double) (raios[i+1])/3) {
-			center->r = raios[i];
-			if (i+1 == countRaios-1) {
-				break;
-			}
-		}
-	}
-	*/
 	
 	return coloredImg;
 }
