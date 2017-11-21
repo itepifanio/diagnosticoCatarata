@@ -211,3 +211,19 @@ Image * adaptiveThreshold(Image * img){
 	return img;
 }
 */
+
+/**
+* Check the values of a and b and 
+* return the min value as the first argument
+*
+**/
+int min(int a, int b){
+	int aux;
+	if(b > a){
+		aux = a;
+		a = b;
+		b = aux;
+	}	
+	
+	return a;
+}

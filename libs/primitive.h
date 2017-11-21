@@ -29,3 +29,7 @@ typedef struct Images
 	Pixel **pixels;
 } Image;
 
+
+typedef struct{
+	int i, j, r;
+} Center;
