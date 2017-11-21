@@ -183,6 +183,7 @@ Image * houghTransform(Image *img, Image *coloredImg){
 					for(t = 0; t <= 360; t++){
 						a = (int)(i - r * cos((double)(t * (PI/180))));
 						b = (int)(j - r * sin((double)(t* (PI/180))));
+
 						if((a >= 0) & (a < img->height) & (b >= 0) & (b < img->width)){
 							houghValues[a][b][r] += 1;
 						}
@@ -191,6 +192,7 @@ Image * houghTransform(Image *img, Image *coloredImg){
 			}
 		}
 	}
+
 	
 	//Searching max values for girth
 	int imax, jmax;
