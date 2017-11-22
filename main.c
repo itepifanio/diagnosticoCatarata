@@ -23,6 +23,9 @@ int main(){
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
 	
+	file = readFile("images/Catarata.ppm");
+	image = getImage(file);
+	
 	Image *hough = houghTransform(binaryImage, image);
 	saveImage("images/hough.ppm", hough, 255);
 }

@@ -158,11 +158,11 @@ Image * houghTransform(Image *img, Image *coloredImg){
 	//Cicle parameters
 	int r, a, b, t;
 	
-	/*Radius with will track the radius os the iris.
-	The circles will be detect using the max and min radius.
-	*/
-	int rmin = 10;
-	int rmax = 60;
+	//Radius with will track the radius os the iris.
+	//The circles will be detect using the max and min radius.
+	
+	int rmin = fmin(img->height, img->width)/20;
+	int rmax = fmin(img->height, img->width)/4;
 
 	
 	//Starting matrix with hough values
@@ -195,31 +195,48 @@ Image * houghTransform(Image *img, Image *coloredImg){
 
 	
 	//Searching max values for girth
-	int imax, jmax;
-	double max = 0;
-	int raux = 0;
+	int max = 0, raux = 0, iaux = 0, jaux = 0;
+
 	for(i = 1; i < img->height-1; i++){
 		for(j = 1; j < img->width-1; j++){
 			for(r = rmin; r <= rmax; r++){
 				if(houghValues[i][j][r] > max){
 					max = houghValues[i][j][r];
 					raux = r;
+					iaux = i;
+					jaux = j;
 				}
 			}
 		}	
 	}
 	
-	for(i = 1; i < img->height-1; i++){
-		for(j = 1; j < img->width-1; j++){
-			if(img->pixels[i][j].r < houghValues[i][j][raux]){
-				img->pixels[i][j].r = 255;
-				img->pixels[i][j].g = 0;
-				img->pixels[i][j].b = 0;
+	printf("R: %i\n", raux);
+	printf("I: %i\n", iaux);
+	printf("J: %i\n", jaux);
+		
+	for(i = iaux - raux; i <= iaux; i++){
+		for(j = jaux - raux; j <= jaux; j++){
+			if((i - iaux)*(i - iaux) + (j - jaux)*(j - jaux) <= raux*raux){
+				coloredImg->pixels[i][j].r = 255;
+				coloredImg->pixels[i][j].g = 0;
+				coloredImg->pixels[i][j].b = 0;
 			}
 		}
-	}	
+	}
 	
-	return img;
+	/*
+	for(i = iaux - raux; i <= iaux; i++){
+		for(j = jaux - raux; j <= jaux; j++){
+			if((i - iaux)*(i - iaux) + (j - jaux)*(j - jaux) <= raux*raux){
+				img->pixels[i][j].r = 255;
+				img->pixels[i][j].r = 0;
+				img->pixels[i][j].r = 0;
+			}
+		}
+	}
+	*/
+	
+	return coloredImg;
 }
 
 
