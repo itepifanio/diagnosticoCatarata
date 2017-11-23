@@ -1,8 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include "libs/primitive.h"
-#include "libs/ppmTreatment.h"
+#include <stdio.h>
 #include "libs/filters.h"
+
 
 int main(){
 	int i, j;

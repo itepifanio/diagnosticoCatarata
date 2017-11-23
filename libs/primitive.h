@@ -28,4 +28,3 @@ typedef struct Images
 	int maxLength;
 	Pixel **pixels;
 } Image;
-
