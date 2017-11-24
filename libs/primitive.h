@@ -33,3 +33,4 @@ typedef struct Images
 typedef struct{
 	int i, j, r;
 } Center;
+
