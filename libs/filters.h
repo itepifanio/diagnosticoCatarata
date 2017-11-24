@@ -1,4 +1,6 @@
 #include <math.h>
+#define PI 3.14159265
+
 /**
 * Create a gray scale image
 *
@@ -144,3 +146,105 @@ Image * binary(Image *img){
 	return binary;
 		
 }
+
+/**
+* Hough implementation. The parameter should be an
+* binary image
+*
+**/
+Image * houghTransform(Image *img, Image *coloredImg){
+	//Helper parameters
+	int i, j;
+	//Cicle parameters
+	int a, b, t;
+    int r, rmin = 80, rmax = 85;
+	
+	//Radius with will track the radius os the iris.
+	//The circles will be detect using the max and min radius.
+	
+	//int rmin = fmin(img->height, img->width)/20;
+	//int rmax = fmin(img->height, img->width)/4;
+
+	
+	//Starting matrix with hough values
+	int ***houghValues = (int***)calloc(img->height, sizeof(int**));
+	
+	for(i = 0; i < img->height; i++){
+		houghValues[i] = (int**)calloc(img->width, sizeof(int*));
+		for(j = 0; j < img->width; j++){
+			houghValues[i][j] = (int*)calloc(rmax - rmin + 1, sizeof(int));
+		}
+	}
+	
+	//Processing pixels
+	for(i = rmin; i < img->height - rmin; i++){
+		for(j = rmin; j < img->width - rmin; j++){
+			if(img->pixels[i][j].r == 1){
+				for(r = rmin; r <= rmax; r++){
+					for(t = 0; t <= 360; t++){
+						a = (int)(i - r * cos((double)(t * (PI/180))));
+						b = (int)(j - r * sin((double)(t * (PI/180))));
+
+						if((a >= 0) & (a < img->height) & (b >= 0) & (b < img->width)){
+							houghValues[a][b][r - rmin] += 1;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
+	//Searching max values for girth
+	int max = 0, raux = 0, iaux = 0, jaux = 0;
+
+	for(i = rmin; i < img->height - rmin; i++){
+		for(j = rmin; j < img->width - rmin; j++){
+			for(r = rmin; r <= rmax; r++){
+				if(houghValues[i][j][r - rmin] > max){
+					max = houghValues[i][j][r - rmin];
+					raux = r;
+					iaux = i;
+					jaux = j;
+				}
+			}
+		}	
+	}
+	
+	printf("R: %i\n", raux);
+	printf("I: %i\n", iaux);
+	printf("J: %i\n", jaux);
+
+  for (i = rmin; i < coloredImg->height - rmin; i++) {
+    for (j = rmin; j < coloredImg->width - rmin; j++) { 
+      int dist = (int) sqrt(pow(i-iaux, 2) + pow(j-jaux,2));
+
+      if(dist == raux) {
+        coloredImg->pixels[i][j].r = 255;
+        coloredImg->pixels[i][j].g = 0;
+        coloredImg->pixels[i][j].b = 0;
+      }
+    }
+  }
+	return coloredImg;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
