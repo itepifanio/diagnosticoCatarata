@@ -32,9 +32,8 @@ void skipComments(FILE *file_img) {
 **/
 FILE * readFile(char filename[]){
 	FILE *file;
-
 	file = fopen(filename, "rw");
-
+	
 	if (! file){
 		printf("Ocorreu algum erro durante a leitura do arquivo");
 		exit(1);
