@@ -212,3 +212,45 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 
 	return coloredImg;
 }
+
+
+void diagnosis(Image *img, char fileName[]){
+	int i, j;
+	int threshold = 151;
+	int pupilPixels = 0;
+	int unhealthy = 0;
+	int percent = 0;
+	int x = (int)(60*threshold/100);
+	for(i = 1; i < img->height - 1; i++){
+		for(j = 1; j < img->width - 1; j++){
+			if(img->pixels[i][j].r != 255 || img->pixels[i][j].g != 255 || img->pixels[i][j].b != 255){
+				pupilPixels++;
+				if(img->pixels[i][j].r > x || img->pixels[i][j].g > x || img->pixels[i][j].b > x){
+					unhealthy++;
+				}
+			}
+		}
+	}
+	if(pupilPixels > 0){
+		percent = (int)((unhealthy*100)/pupilPixels);	
+	}else{
+		printf("Problemas com o diagnostico. Procure um médico!\n");
+	}
+	
+	FILE *file;
+	file = fopen(fileName, "w+");
+
+	if(! file){
+		printf("Problemas com a elaboracao do diagnostico\n");
+		exit(1);
+	}
+
+	if(percent < 37){
+		fprintf(file, "Diagnostico Geral: %s\n", "Sem catarata");
+		fprintf(file, "Porcentagem de Comprometimento: %i%%\n", (int)percent);
+	}else{
+		fprintf(file, "Diagnostico Geral: %s\n", "Com catarata");
+		fprintf(file, "Porcentagem de Comprometimento: %i%%\n", (int)percent);
+	}
+	fclose(file);	
+}

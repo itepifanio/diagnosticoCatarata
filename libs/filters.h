@@ -60,3 +60,12 @@ Image * binary(Image *img);
 * @return Image coloredImg
 **/
 Image * houghTransform(Image *img, Image *coloredImg, bool b);
+
+
+/**
+* Receive a segmentated image, count the 
+* unhealthy pixels and gives an diagnosis.
+*
+* @params Image *img
+**/
+void diagnosis(Image *img, char fileName[]);

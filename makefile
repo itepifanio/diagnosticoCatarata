@@ -16,4 +16,5 @@ clean:
 	images/binary.ppm \
 	images/grayScale.ppm \
 	images/hough.ppm \
-	images/segmentation.ppm
+	images/segmentation.ppm \
+	diagnosis.txt \

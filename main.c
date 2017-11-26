@@ -27,4 +27,6 @@ int main(){
 	
 	Image *hough = houghTransform(binaryImage, image, false);
 	saveImage("images/hough.ppm", hough, 255);
+
+	diagnosis(hough, "diagnosis.txt");
 }
