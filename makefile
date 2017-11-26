@@ -14,4 +14,6 @@ clean:
 	images/gaussianFilter.ppm \
 	images/sobel.ppm \
 	images/binary.ppm \
-	images/grayScale.ppm
+	images/grayScale.ppm \
+	images/hough.ppm \
+	images/segmentation.ppm

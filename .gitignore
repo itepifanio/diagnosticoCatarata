@@ -9,6 +9,7 @@ sobel.ppm
 gaussianFilter.ppm
 sobelFilter.ppm
 hough.ppm
+segmentation.ppm
 
 # Prerequisites
 *.d

@@ -25,6 +25,6 @@ int main(){
 	file = readFile("images/Catarata.ppm");
 	image = getImage(file);
 	
-	Image *hough = houghTransform(binaryImage, image);
+	Image *hough = houghTransform(binaryImage, image, false);
 	saveImage("images/hough.ppm", hough, 255);
 }

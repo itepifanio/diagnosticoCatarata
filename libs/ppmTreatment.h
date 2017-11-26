@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "primitive.h"
+
+
 /**
 * Go through the file to check if it has any comments
 * if there is a comment, it will be ignored
@@ -8,6 +10,7 @@
 * @params FILE *file_img
 **/
 void skipComments(FILE *file_img);
+
 
 /**
 * Open and read a file
@@ -18,8 +21,21 @@ void skipComments(FILE *file_img);
 FILE * readFile(char filename[]);
 
 
+/**
+* Receive width and height and build
+* a brand new image with this properties
+*
+* @params int width, int height
+* @return Image img
+**/
 Image * buildImage(int width, int height);
 
+
+/**
+* Free alocate memory for image pixels
+*
+* @params Image *img
+**/
 void freeMemory(Image * img);
 
 /**
@@ -34,19 +50,22 @@ void freeMemory(Image * img);
 Image * getImage(FILE *file);
 
 
+/**
+* Treat the image to ignore the borders 
+*
+* @params Image img, int width, int height
+* @return &img->pixels[height][width]
+**/
 Pixel * pixelReturn(Image *img, int width, int height);
 
-/*
-int min(int a, int b){
-	int aux;
-	if(b > a){
-		aux = a;
-		a = b;
-		b = aux;
-	}	
-	
-	return a;
-}
-*/
+
+/**
+* Receive a image and save then like a file.
+* If comp == 1, then the image receive binaries 
+* values, else 0..255 values
+*
+* @params char *file, Image img, int comp
+* @return &img->pixels[height][width]
+**/
 int saveImage(char *file, Image *img, int comp);
 

@@ -69,13 +69,9 @@ Image * sobelFilter(Image *img){
 
 	Image  *filteredImage = buildImage(img->width, img->height);
 	
-	/*Sobel é o valor inteiro que corresponde a fórmula
-		int sobel = sqrt(valueX^2 + valueY^2);
-	*/
 	int valueX=0, valueY=0, sobel;
 	int i, j, k, l;
 
-	//Não pegar as bordas da imagem, pois retorna segmentation fault
 	for(i = 1; i < img->height-1; ++i){
 		for(j = 1; j < img->width-1; ++j){
 			valueX=0;
@@ -122,12 +118,11 @@ Image * binary(Image *img){
 		}
 	}
 
-	return binary;
-		
+	return binary;	
 }
 
 
-Image * houghTransform(Image *img, Image *coloredImg){
+Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 	//Helper parameters
 	int i, j;
 	//Cicle parameters
@@ -189,17 +184,31 @@ Image * houghTransform(Image *img, Image *coloredImg){
 	printf("I: %i\n", iaux);
 	printf("J: %i\n", jaux);
 
-	for (i = rmin; i < coloredImg->height - rmin; i++) {
-		for (j = rmin; j < coloredImg->width - rmin; j++) { 
-    		int dist = (int) sqrt(pow(i-iaux, 2) + pow(j-jaux,2));
+	if(boolean == true){
+		for (i = rmin; i < coloredImg->height - rmin; i++) {
+			for (j = rmin; j < coloredImg->width - rmin; j++) { 
+	    		int dist = (int) sqrt(pow(i-iaux, 2) + pow(j-jaux,2));
+	    		if(dist == raux) {
+	        		coloredImg->pixels[i][j].r = 255;
+	        		coloredImg->pixels[i][j].g = 0;
+	        		coloredImg->pixels[i][j].b = 0;
+	      		}
+	    	}
+	    }
+	}else{
+		for (i = 0; i < img->height; i++) {
+			for (j = 0; j < img->width; j++) { 
+	    		int dist = (int) sqrt(pow(i-iaux, 2) + pow(j-jaux,2));
+	    		if(dist > raux) {
+	        		coloredImg->pixels[i][j].r = 255;
+	        		coloredImg->pixels[i][j].g = 255;
+	        		coloredImg->pixels[i][j].b = 255;
+	      		}
+	    	}
+	    }
+	}	
 
-    		if(dist == raux) {
-        		coloredImg->pixels[i][j].r = 255;
-        		coloredImg->pixels[i][j].g = 0;
-        		coloredImg->pixels[i][j].b = 0;
-      		}
-    	}
-    }
+    saveImage("images/segmentation.ppm", coloredImg, 255);
 
 	return coloredImg;
 }
