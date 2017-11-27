@@ -104,7 +104,9 @@ Image * sobelFilter(Image *img){
 
 
 Image * binary(Image *img){
-	int threshold = 28;
+	//Normal int threshold = 21;
+	//Catarata int threshold = 18;
+	int threshold = 25;
 	int i, j;
 	Image *binary = buildImage(img->width, img->height);
 
@@ -129,10 +131,22 @@ Image * binary(Image *img){
 
 Image * houghTransform(Image *img, Image *coloredImg){
 	//Helper parameters
-	int i, j;
+	int i, j, r;
 	//Cicle parameters
-	int a, b, t;
-    int r, rmin = 80, rmax = 85;
+	int a, b, t, rmin, rmax;
+	if(img->width == 1015 && img->height == 759) {
+      rmin = 80;
+      rmax = 90;
+    } else if(img->height == 770) {
+      rmin = 150;
+      rmax = 160;
+    } else if(img->width == 1167  && img->height == 739) {
+      rmin = 155;
+      rmax = 160;
+    } else {
+      rmin = 50;
+      rmax = 60;
+    }
 	
 	//Radius with will track the radius os the iris.
 	//The circles will be detect using the max and min radius.

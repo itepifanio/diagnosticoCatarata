@@ -5,7 +5,7 @@
 
 int main(){
 	int i, j;
-	FILE *file = readFile("images/Catarata.ppm");
+	FILE *file = readFile("images/Catarata2.ppm");
 	Image *image = getImage(file);
 
 	Image *grayImage = grayScale(image);
@@ -22,7 +22,7 @@ int main(){
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
 	
-	file = readFile("images/Catarata.ppm");
+	file = readFile("images/Catarata2.ppm");
 	image = getImage(file);
 	
 	Image *hough = houghTransform(binaryImage, image);
