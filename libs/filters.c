@@ -208,8 +208,6 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 	    }
 	}	
 
-    saveImage("images/segmentation.ppm", coloredImg, 255);
-
 	return coloredImg;
 }
 

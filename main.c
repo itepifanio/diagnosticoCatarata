@@ -4,25 +4,31 @@
 #include "libs/filters.h"
 
 int main(int argc, char *argv[]){
-	char *entrada = argv[2];
+	//Check image args
+	char *arg2 = argv[2];
 	char *images = "images/";
 	char fileName[80];
 	fileName[0] = '\0';
 	
 	strcat(fileName, images);
-	strcat(fileName, entrada);
+	strcat(fileName, arg2);
 
 	FILE *file = fopen(fileName, "r");
 	
 	if(! file){
 		printf("Ops, ocorreu algum erro com seus argumentos\n");
 		printf("Os nomes devem ser no formato: \n");
-		printf("./catarata -i images/Catarata.ppm\n");
+		printf("./catarata -i Catarata.ppm -f ppm -o diagnosis.txt\n");
+		exit(1);
+	}else if(strcmp(argv[4], "ppm") != 0 || strcmp(argv[3], "-f") != 0 || strcmp(argv[5],"-o") != 0){
+		printf("Ops, ocorreu algum erro com seus argumentos\n");
+		printf("Os nomes devem ser no formato: \n");
+		printf("./catarata -i Catarata.ppm -f ppm -o diagnosis.txt\n");
+		printf("\n");
 		exit(1);
 	}else{
-		printf("Inicializando image, aguarde... %s\n", argv[2]);
+		printf("Inicializando imagem %s, aguarde...\n", argv[2]);
 	}
-
 	file = readFile(fileName);
 	Image *image = getImage(file);
 
@@ -46,5 +52,5 @@ int main(int argc, char *argv[]){
 	Image *hough = houghTransform(binaryImage, image, false);
 	saveImage("images/hough.ppm", hough, 255);
 
-	diagnosis(hough, "diagnosis.txt");
+	diagnosis(hough, argv[6]);
 }
