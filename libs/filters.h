@@ -11,7 +11,6 @@
 * @params Image *img
 * return FILE grayScale
 **/
-
 Image * grayScale(Image *img);
 
 
@@ -50,12 +49,23 @@ Image * binary(Image *img);
 
 /**
 * Hough implementation. This function receive
-* two parameter, the first one should be a binary
+* three parameter, the first one should be a binary
 * image, the second the colored image which will
-* be segmented. 
-* This function return an segmented colored image.
+* be segmented, the third a boolean. 
+* If the b == true, then the function return an
+* drawing circle in the eye. 
+* else an segmented colored image.
 *
 * @params Image *img, Image *coloredImg
 * @return Image coloredImg
 **/
-Image * houghTransform(Image *img, Image *coloredImg);
+Image * houghTransform(Image *img, Image *coloredImg, bool b);
+
+
+/**
+* Receive a segmentated image, count the 
+* unhealthy pixels and gives an diagnosis.
+*
+* @params Image *img
+**/
+void diagnosis(Image *img, char fileName[]);

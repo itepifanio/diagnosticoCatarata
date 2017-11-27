@@ -2,7 +2,7 @@
 * A enum to create booleans 
 * type in c
 **/
-enum bool
+typedef enum bool
 {
 	true = 1,
 	false = 0
@@ -28,9 +28,4 @@ typedef struct Images
 	int maxLength;
 	Pixel **pixels;
 } Image;
-
-
-typedef struct{
-	int i, j, r;
-} Center;
 

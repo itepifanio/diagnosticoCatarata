@@ -24,6 +24,7 @@ void skipComments(FILE *file_img) {
     ungetc(buffer, file_img);
 }
 
+
 /**
 * Open and read a file
 *
@@ -32,9 +33,8 @@ void skipComments(FILE *file_img) {
 **/
 FILE * readFile(char filename[]){
 	FILE *file;
-
 	file = fopen(filename, "rw");
-
+	
 	if (! file){
 		printf("Ocorreu algum erro durante a leitura do arquivo");
 		exit(1);
@@ -65,6 +65,7 @@ Image * buildImage(int width, int height){
 	return img;
 }
 
+
 void freeMemory(Image * img){
     int i = 0;
 
@@ -75,15 +76,7 @@ void freeMemory(Image * img){
     free(img);
 }
 
-/**
-* Read a file line per line.
-* Create a primitive type Image img and
-* set its params width, height and
-* its pixels, returning
-*
-* @params FILE *file
-* @return Image img
-**/
+
 Image * getImage(FILE *file){
 	char header[3];
 	int width, height, i, j, maxPixelValue;
@@ -130,6 +123,7 @@ Pixel * pixelReturn(Image *img, int width, int height){
     return &img->pixels[height][width];
 }
 
+
 int saveImage(char *file, Image *img, int comp){
 
 	int i = 0;
@@ -146,6 +140,7 @@ int saveImage(char *file, Image *img, int comp){
 
 	for(i = 0; i < img->height; i++){
 		for(j = 0; j < img->width; j++){
+			// Check values of pixels
 			if(img->pixels[i][j].r > 255) img->pixels[i][j].r = 1;
 			if(img->pixels[i][j].g > 255) img->pixels[i][j].g = 1;
 			if(img->pixels[i][j].b > 255) img->pixels[i][j].b = 1;
