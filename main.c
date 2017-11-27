@@ -1,11 +1,29 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "libs/filters.h"
 
+int main(int argc, char *argv[]){
+	char *entrada = argv[2];
+	char *images = "images/";
+	char fileName[80];
+	fileName[0] = '\0';
+	
+	strcat(fileName, images);
+	strcat(fileName, entrada);
 
-int main(){
-	int i, j;
-	FILE *file = readFile("images/Catarata.ppm");
+	FILE *file = fopen(fileName, "r");
+	
+	if(! file){
+		printf("Ops, ocorreu algum erro com seus argumentos\n");
+		printf("Os nomes devem ser no formato: \n");
+		printf("./catarata -i images/Catarata.ppm\n");
+		exit(1);
+	}else{
+		printf("Inicializando image, aguarde... %s\n", argv[2]);
+	}
+
+	file = readFile(fileName);
 	Image *image = getImage(file);
 
 	Image *grayImage = grayScale(image);
@@ -22,7 +40,7 @@ int main(){
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
 	
-	file = readFile("images/Catarata.ppm");
+	file = readFile(fileName);
 	image = getImage(file);
 	
 	Image *hough = houghTransform(binaryImage, image, false);

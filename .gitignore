@@ -8,8 +8,11 @@ filtroGausssiano.ppm
 sobel.ppm
 gaussianFilter.ppm
 sobelFilter.ppm
+binary.ppm
 hough.ppm
 segmentation.ppm
+catarata
+
 
 # Prerequisites
 *.d
