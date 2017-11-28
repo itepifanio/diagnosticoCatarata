@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
 	strcat(fileName, arg2);
 
 	FILE *file = fopen(fileName, "r");
-	
+
 	if(! file){
 		printf("Ops, ocorreu algum erro com seus argumentos\n");
 		printf("Os nomes devem ser no formato: \n");
@@ -49,7 +49,14 @@ int main(int argc, char *argv[]){
 	file = readFile(fileName);
 	image = getImage(file);
 	
-	Image *hough = houghTransform(binaryImage, image, false);
+	Image *hough;
+	
+	if(argc == 8 && strcmp(argv[7], "-t") == 0){
+		hough = houghTransform(binaryImage, image, true);
+	}else{
+		hough = houghTransform(binaryImage, image, false);
+	}	
+
 	saveImage("images/hough.ppm", hough, 255);
 
 	diagnosis(hough, argv[6]);
