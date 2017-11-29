@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "primitive.h"
+#define PI 3.14159265
 
 
 /**
@@ -69,3 +71,17 @@ Pixel * pixelReturn(Image *img, int width, int height);
 **/
 int saveImage(char *file, Image *img, int comp);
 
+
+/**
+* Recursive function which calculate sin recursive
+*
+* @params float *sinTable, int iterator
+**/
+int sinRecursive(float *sinTable, int iterator);
+
+/**
+* Recursive function which calculate cos recursive
+*
+* @params float *cosTable, int iterator
+**/
+int cosRecursive(float *cosTable, int iterator);

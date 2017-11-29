@@ -9,7 +9,7 @@ int main(int argc, char *argv[]){
 	char *images = "images/";
 	char fileName[80];
 	fileName[0] = '\0';
-	
+
 	strcat(fileName, images);
 	strcat(fileName, arg2);
 
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
 
 	Image *binaryImage = binary(sobel);
 	saveImage("images/binary.ppm", binaryImage, 1);
-	
+
 	file = readFile(fileName);
 	image = getImage(file);
 	

@@ -1,10 +1,6 @@
 #include "ppmTreatment.h"
-/**
-* Go through the file to check if it has any comments
-* if there is a comment, it will be ignored
-*
-* @params FILE *file_img
-**/
+
+
 void skipComments(FILE *file_img) {
     char buffer = fgetc(file_img);
 
@@ -25,12 +21,6 @@ void skipComments(FILE *file_img) {
 }
 
 
-/**
-* Open and read a file
-*
-* @params char filename
-* @return FILE file
-**/
 FILE * readFile(char filename[]){
 	FILE *file;
 	file = fopen(filename, "rw");
@@ -157,4 +147,22 @@ int saveImage(char *file, Image *img, int comp){
 
 	return 0;
 
+}
+
+
+int sinRecursive(float *sinTable, int iterator){
+	if(iterator <= 361){
+		sinTable[iterator] = sin(iterator*PI/180);
+
+		return sinRecursive(sinTable, ++iterator);
+	}
+}
+
+
+int cosRecursive(float *cosTable, int iterator){
+	if(iterator <= 361){
+		cosTable[iterator] = cos(iterator*PI/180);
+
+		return cosRecursive(cosTable, ++iterator);
+	}
 }
