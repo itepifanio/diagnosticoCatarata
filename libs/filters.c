@@ -213,7 +213,7 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 			houghValues[i][j] = (int*)calloc(rmax - rmin + 1, sizeof(int));
 		}
 	}
-	int max = 0, raux = 0, iaux = 0, jaux = 0, r2,i2,j2,r3,i3,j3, max2 = 0, max3 = 0;
+	int max = 0, raux = 0, iaux = 0, jaux = 0, r2 = 0, i2 = 0, j2 = 0;
 
 	houghCalcs(rmin, rmax, houghValues, &raux, &iaux, &jaux, sinTable, cosTable, img, coloredImg);
 	houghCalcs(riMin, riMax, houghValues, &r2, &i2, &j2, sinTable, cosTable, img, coloredImg);
