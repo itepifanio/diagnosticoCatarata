@@ -52,12 +52,14 @@ int main(int argc, char *argv[]){
 	Image *hough;
 	
 	if(argc == 8 && strcmp(argv[7], "-t") == 0){
-		hough = houghTransform(binaryImage, image, true);
-	}else{
 		hough = houghTransform(binaryImage, image, false);
+
+		saveImage("images/hough.ppm", hough, 255);
+
+		diagnosis(hough, argv[6]);
+	}else{
+		hough = houghTransform(binaryImage, image, true);
+
+		saveImage("images/hough.ppm", hough, 255);
 	}	
-
-	saveImage("images/hough.ppm", hough, 255);
-
-	diagnosis(hough, argv[6]);
 }
