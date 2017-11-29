@@ -106,12 +106,12 @@ Image * binary(Image *img){
 	int i, j;
 
 	if(img->width == 1015 && img->height == 759) {
-		threshold = 18;
-	} else if(img->width == 1198  && img->height == 770) {
-		threshold = 10;
-	} else {
-		threshold = 18;
-	}
+    threshold = 50;
+  } else if(img->width == 1198  && img->height == 770) {
+    threshold = 10;
+  } else {
+    threshold = 18;
+  }
 	Image *binary = buildImage(img->width, img->height);
 
 	for(i = 1; i < img->height-1; i++){
@@ -138,7 +138,7 @@ void houghCalcs(int rmin, int rmax, int ***hough, int *R, int *x, int *y, float 
 	for(i = rmin; i < img->height - rmin; i++){
 		for(j = rmin; j < img->width - rmin; j++){
 			if(img->pixels[i][j].r == 1){
-				for(r = rmin; r <= rmax; r++){
+				for(r = rmin; r < rmax; r++){
 					for(t = 0; t <= 360; t++){
 						a = (int) (i - r * cosTable[t]);
 						b = (int) (j - r * sinTable[t]);
@@ -155,7 +155,7 @@ void houghCalcs(int rmin, int rmax, int ***hough, int *R, int *x, int *y, float 
 	//Searching max values for girth
 	for(i = rmin; i < img->height - rmin; i++){
 		for(j = rmin; j < img->width - rmin; j++){
-			for(r = rmin; r <= rmax; r++){
+			for(r = rmin; r < rmax; r++){
 				if(hough[i][j][r - rmin] > max){
 					max = hough[i][j][r - rmin];
 					*R = r;
@@ -184,7 +184,7 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
       rmax = 150;
     } else if(img->width == 1167  && img->height == 739) {
       rmin = 155;
-      rmax = 240;
+      rmax = 160;
     } else {
       rmin = 90;
       rmax = 100;
@@ -214,20 +214,20 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 			houghValues[i][j] = (int*)calloc(rmax - rmin + 1, sizeof(int));
 		}
 	}
-	int max = 0, raux = 0, iaux = 0, jaux = 0, r2,i2,j2,r3,i3,j3, max2 = 0, max3 = 0;
+	int max = 0, raux = 0, iaux = 0, jaux = 0, r2 = 0, i2 = 0, j2 = 0;
 
 	houghCalcs(rmin, rmax, houghValues, &raux, &iaux, &jaux, sinTable, cosTable, img, coloredImg);
 	houghCalcs(riMin, riMax, houghValues, &r2, &i2, &j2, sinTable, cosTable, img, coloredImg);
 
-	printf("R: %i\n", r2);
-	printf("I: %i\n", i2);
-	printf("J: %i\n", j2);
+//	printf("R: %i\n", r2);
+	//printf("I: %i\n", i2);
+	//printf("J: %i\n", j2);
 
 	if(!boolean){
 		for (i = rmin; i < coloredImg->height - rmin; i++) {
 			for (j = rmin; j < coloredImg->width - rmin; j++) {
 	    		int dist = (int) sqrt(pow(i-iaux, 2) + pow(j-jaux,2));
-					int dist2 = (int) sqrt(pow(i-i2, 2) + pow(j-j2,2));
+				int dist2 = (int) sqrt(pow(i-i2, 2) + pow(j-j2,2));
 	    		if(dist == raux || dist2 == r2) {
 	        		coloredImg->pixels[i][j].r = 255;
 	        		coloredImg->pixels[i][j].g = 0;
