@@ -70,11 +70,8 @@ figuras na imagem ao invés dos valores de todos os pixels em RGB. Para tal é
 necessário realizar uma série de procedimentos a fim de garantir a detecção dos
 contornos com a melhor qualidade possível.
 
-# English
+## About the project
 
-### Cataract Diagnosis Software
-
-### Informations about the project
   In this project we have to implement a C program to analyse four images (two
 with cataract and two without) and emit a diagnosis of each one of the images.
 The project will be implemented in the following steps:
