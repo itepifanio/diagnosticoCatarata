@@ -15,23 +15,11 @@ Projeto final da disciplina de ITP
 
 	make clean
 
-## O que foi feito
-- Transformação da imagem colorida para tons de cinza
-- Filtro gaussiano
-- Filtro de Sobel
-- Binarização
-- Transformada de hough
-- Segmentacao da pupila
-- Diagnóstico da catarata
+## Informações sobre o projeto
 
-## O que não foi feito
-- Todas as funcionalidades básicas foram atendidas
+ O projeto, escrito em C, analisa 4 imagens em formato ppm (duas
+ com catarata e duas sem catarata). São realizados várias etapas 
+ de processamento de imagem para chegar a um diagnóstico. Filtro
+ gaussiano, filtro de sobel, binarização, transformada de hough 
+ foram algumas das técnicas utilizadas.
 
-## Extras 
-- Desenho da iris (Para ativar, rode: ./catarata -i Catarata.ppm -f ppm -o diagnostico.txt -t )
-- Identificação da iris e da pupila.
-- Ignora comentários (ver função skipComments em ppmTreatment)
-
-## O que seria feito diferentemente		
-- Outra linguagem que não c.
-- A organização dos códigos seria outra. Algumas funções seriam refatoradas, outras criadas (como uma função para checar os args do main).
