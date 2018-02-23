@@ -29,7 +29,9 @@ Projeto final da disciplina de ITP
 
 ## Extras 
 - Desenho da iris (Para ativar, rode: ./catarata -i Catarata.ppm -f ppm -o diagnostico.txt -t )
+- Identificação da iris e da pupila.
+- Ignora comentários (ver função skipComments em ppmTreatment)
 
 ## O que seria feito diferentemente		
 - Outra linguagem que não c.
-- A organização dos códigos seriam outra. Algumas funções seriam refatoradas, outras criadas (como uma função para checar os args do main).
+- A organização dos códigos seria outra. Algumas funções seriam refatoradas, outras criadas (como uma função para checar os args do main).
