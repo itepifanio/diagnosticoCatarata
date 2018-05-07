@@ -1,4 +1,4 @@
-#include "filters.h"
+#include "../include/filters.h"
 
 Image * grayScale(Image *img){
 	int i, j;
@@ -130,7 +130,7 @@ Image * binary(Image *img){
 	return binary;
 }
 
-void houghCalcs(int rmin, int rmax, int ***hough, int *R, int *x, int *y, float sinTable[], float cosTable[], Image *img, Image *coloredImg){
+void houghCalcs(int rmin, int rmax, int ***hough, int *R, int *x, int *y, float sinTable[], float cosTable[], Image *img){
 	int i, j, r, t, a, b, max = 0;
 
 	//Processing pixels
@@ -170,9 +170,9 @@ void houghCalcs(int rmin, int rmax, int ***hough, int *R, int *x, int *y, float 
 
 Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 	//Helper parameters
-	int i, j, r;
+	int i, j;
 	//Cicle parameters
-	int a, b, t, rmin, rmax, rpMin, rpMax, riMin, riMax;
+	int rmin, rmax, riMin, riMax;
 	if(img->width == 1015 && img->height == 759) {
       rmin = 80;
       rmax = 85;
@@ -213,10 +213,10 @@ Image * houghTransform(Image *img, Image *coloredImg, bool boolean){
 			houghValues[i][j] = (int*)calloc(rmax - rmin + 1, sizeof(int));
 		}
 	}
-	int max = 0, raux = 0, iaux = 0, jaux = 0, r2 = 0, i2 = 0, j2 = 0;
+	int raux = 0, iaux = 0, jaux = 0, r2 = 0, i2 = 0, j2 = 0;
 
-	houghCalcs(rmin, rmax, houghValues, &raux, &iaux, &jaux, sinTable, cosTable, img, coloredImg);
-	houghCalcs(riMin, riMax, houghValues, &r2, &i2, &j2, sinTable, cosTable, img, coloredImg);
+	houghCalcs(rmin, rmax, houghValues, &raux, &iaux, &jaux, sinTable, cosTable, img);
+	houghCalcs(riMin, riMax, houghValues, &r2, &i2, &j2, sinTable, cosTable, img);
 
 	printf("R: %i\n", r2);
 	printf("I: %i\n", i2);

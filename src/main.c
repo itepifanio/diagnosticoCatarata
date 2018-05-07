@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "libs/filters.h"
+#include "../include/filters.h"
 
 int main(int argc, char *argv[]){
 	//Check image args
@@ -48,9 +48,9 @@ int main(int argc, char *argv[]){
 
 	file = readFile(fileName);
 	image = getImage(file);
-	
+
 	Image *hough;
-	
+
 	if(argc == 8 && strcmp(argv[7], "-t") == 0){
 		hough = houghTransform(binaryImage, image, false);
 
@@ -61,5 +61,5 @@ int main(int argc, char *argv[]){
 		hough = houghTransform(binaryImage, image, true);
 
 		saveImage("images/hough.ppm", hough, 255);
-	}	
+	}
 }

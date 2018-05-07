@@ -1,5 +1,4 @@
-#include "ppmTreatment.h"
-
+#include "../include/ppmTreatment.h"
 
 void skipComments(FILE *file_img) {
     char buffer = fgetc(file_img);
@@ -13,10 +12,10 @@ void skipComments(FILE *file_img) {
 		}else{
             ungetc(buffer, file_img);
 		}
-        
+
         buffer = fgetc(file_img);
     } while (buffer == '#');
-    
+
     ungetc(buffer, file_img);
 }
 
@@ -24,7 +23,7 @@ void skipComments(FILE *file_img) {
 FILE * readFile(char filename[]){
 	FILE *file;
 	file = fopen(filename, "rw");
-	
+
 	if (! file){
 		printf("Ocorreu algum erro durante a leitura do arquivo");
 		exit(1);
@@ -38,12 +37,12 @@ Image * buildImage(int width, int height){
 	int i = 0;
 
 	Image *img = malloc(sizeof(Image));
-	
+
 	if(!img){
 		printf("Não foi possível alocar a imagem na memória");
 		exit(1);
 	}
-	
+
 	img->width = width;
 	img->height = height;
 
@@ -73,7 +72,7 @@ Image * getImage(FILE *file){
 
 	fscanf(file, "%s ", header);
 
-	if(header[0] != 'P' && header[1]!= '3'){	
+	if(header[0] != 'P' && header[1]!= '3'){
 		printf("Tipo da imagem não suportado");
 		exit(1);
 	}
@@ -82,7 +81,7 @@ Image * getImage(FILE *file){
 	fscanf(file, "%d %d", &width, &height);
 
 	fscanf(file, "%d", &maxPixelValue);
-	
+
 	Image *img = buildImage(width, height);
 
 	for(i = 0; i < img->height; i++){
@@ -147,22 +146,4 @@ int saveImage(char *file, Image *img, int comp){
 
 	return 0;
 
-}
-
-
-int sinRecursive(float *sinTable, int iterator){
-	if(iterator <= 361){
-		sinTable[iterator] = sin(iterator*PI/180);
-
-		return sinRecursive(sinTable, ++iterator);
-	}
-}
-
-
-int cosRecursive(float *cosTable, int iterator){
-	if(iterator <= 361){
-		cosTable[iterator] = cos(iterator*PI/180);
-
-		return cosRecursive(cosTable, ++iterator);
-	}
 }

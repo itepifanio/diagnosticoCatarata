@@ -1,5 +1,10 @@
+#ifndef _PRIMITIVE_H_
+#define _PRIMITIVE_H_
+
+#include <math.h>
+
 /**
-* A enum to create booleans 
+* A enum to create booleans
 * type in c
 **/
 typedef enum bool
@@ -19,7 +24,7 @@ typedef struct Pixels
 /**
 * A new typedef that read an image
 * with width, height integer,
-* an header char[54] and the 
+* an header char[54] and the
 * typedef Pixel
 **/
 typedef struct Images
@@ -29,3 +34,4 @@ typedef struct Images
 	Pixel **pixels;
 } Image;
 
+#endif

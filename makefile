@@ -1,16 +1,25 @@
-all: catarata
+PROG = bin/catarata
+CC = gcc
+CFLAGS = -O0 -g -W -Wall -pedantic
+OBJS = main.o ppmTreatment.o filters.o
+RM = -f *.o
 
-catarata: ppmTreatment.o filters.o
-	gcc main.c ppmTreatment.o filters.o -o catarata -W -g -lm
+$(PROG) : $(OBJS)
+	$(CC) $(OBJS) -o $(PROG) -lm
+	mv *.o build/
 
-ppmTreatment.o: libs/ppmTreatment.c
-	gcc -c libs/ppmTreatment.c -g -W -lm 
+main.o: include/ppmTreatment.h include/filters.h
+	$(CC) $(CFLAGS) -c src/main.c -g -W -lm
 
-filters.o: libs/filters.c
-	gcc -c libs/filters.c -g -W -lm
+ppmTreatment.o: include/ppmTreatment.h
+	$(CC) $(CFLAGS) -c src/ppmTreatment.c -g -W -lm
+
+filters.o: include/filters.h
+	$(CC) $(CFLAGS) -c src/filters.c -g -W -lm
 
 clean:
-	rm ppmTreatment.o filters.o catarata \
+	rm -f build/*.o \
+	rm bin/catarata \
 	images/gaussianFilter.ppm \
 	images/sobel.ppm \
 	images/binary.ppm \

@@ -1,6 +1,8 @@
+#ifndef _PPMTREATMENT_H_
+#define _PPMTREATMENT_H_
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "primitive.h"
 #define PI 3.14159265
 
@@ -53,7 +55,7 @@ Image * getImage(FILE *file);
 
 
 /**
-* Treat the image to ignore the borders 
+* Treat the image to ignore the borders
 *
 * @params Image img, int width, int height
 * @return &img->pixels[height][width]
@@ -63,7 +65,7 @@ Pixel * pixelReturn(Image *img, int width, int height);
 
 /**
 * Receive a image and save then like a file.
-* If comp == 1, then the image receive binaries 
+* If comp == 1, then the image receive binaries
 * values, else 0..255 values
 *
 * @params char *file, Image img, int comp
@@ -71,17 +73,4 @@ Pixel * pixelReturn(Image *img, int width, int height);
 **/
 int saveImage(char *file, Image *img, int comp);
 
-
-/**
-* Recursive function which calculate sin recursive
-*
-* @params float *sinTable, int iterator
-**/
-int sinRecursive(float *sinTable, int iterator);
-
-/**
-* Recursive function which calculate cos recursive
-*
-* @params float *cosTable, int iterator
-**/
-int cosRecursive(float *cosTable, int iterator);
+#endif
